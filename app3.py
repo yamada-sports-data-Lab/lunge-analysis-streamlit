@@ -10,13 +10,28 @@ from mediapipe.tasks.python import vision
 import numpy as np
 import streamlit as st
 
-# 日本語フォント設定
-try:
-    import japanize_matplotlib  # noqa: F401
-except ImportError:
-    pass
+import glob
+import matplotlib.font_manager as fm
+import matplotlib.pyplot as plt
 
-plt.rcParams["font.sans-serif"] = ["IPAexGothic", "Noto Sans CJK JP", "DejaVu Sans"]
+def configure_japanese_font():
+    font_candidates = (
+        glob.glob("/usr/share/fonts/**/ipag.ttf", recursive=True)
+        + glob.glob("/usr/share/fonts/**/IPAGothic.ttf", recursive=True)
+        + glob.glob("/usr/share/fonts/**/ipam.ttf", recursive=True)
+        + glob.glob("/usr/share/fonts/**/NotoSansCJK*.ttc", recursive=True)
+        + glob.glob("C:/Windows/Fonts/msgothic.ttc", recursive=False)
+        + glob.glob("C:/Windows/Fonts/meiryo.ttc", recursive=False)
+    )
+    for font_path in font_candidates:
+        fm.fontManager.addfont(font_path)
+        prop = fm.FontProperties(fname=font_path)
+        plt.rcParams["font.family"] = prop.get_name()
+        break
+    plt.rcParams["axes.unicode_minus"] = False
+
+configure_japanese_font()
+
 plt.rcParams["axes.unicode_minus"] = False
 
 MODEL_PATH = "pose_landmarker_lite.task"
