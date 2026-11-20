@@ -1,0 +1,2 @@
+# lunge-analysis-streamlit
+StreamlitとMediaPipe Poseを用いたフォワードランジ動作解析アプリ。股関節-足首基準線に対するニーイン変位、立ち上がり腰部上昇速度、鉛直移動量および最下点フレームの骨格・基準線を可視化します。
