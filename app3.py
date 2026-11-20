@@ -459,13 +459,39 @@ def main():
     st.title("フォワードランジ解析")
     st.caption("ニーイン・上昇速度・鉛直移動の確認")
 
-    with st.sidebar:
-        st.header("設定")
-        uploaded_file = st.file_uploader("動画をアップロード", type=["mp4", "mov", "avi", "m4v"])
-        height_cm = st.number_input("身長 (cm)", min_value=120.0, max_value=220.0, value=170.0, step=0.5)
-        standing_frames = st.slider("立位基準フレーム数", min_value=3, max_value=30, value=10, step=1)
-        ma_window = st.slider("移動平均幅（奇数）", min_value=1, max_value=15, value=5, step=2)
-        run_btn = st.button("解析を実行", type="primary", use_container_width=True)
+   with st.sidebar:
+    st.header("設定")
+    uploaded_file = st.file_uploader(
+        "動画をアップロード",
+        type=["mp4", "mov", "avi", "m4v"],
+    )
+    height_cm = st.number_input(
+        "身長 (cm)",
+        min_value=100.0,
+        max_value=230.0,
+        value=170.0,
+        step=0.5,
+    )
+    standing_frames = 10
+    ma_window = 5
+    run_clicked = st.button("解析を実行", type="primary", use_container_width=True)
+
+    st.markdown(
+    """
+    <div style="padding: 16px 20px; border-left: 6px solid #d97706; background-color: #fffbeb; border-radius: 6px; margin-bottom: 16px;">
+        <div style="font-size: 1.25rem; font-weight: 700; color: #92400e; margin-bottom: 8px;">
+            動画撮影のお願い（正確な解析のために）
+        </div>
+        <ul style="font-size: 1.05rem; line-height: 1.8; color: #1f2937; margin: 0; padding-left: 1.4rem;">
+            <li><strong>縦置き</strong>で撮影してください</li>
+            <li><strong>カメラと正対</strong>して撮影してください</li>
+            <li><strong>カメラの水平</strong>をしっかりとってください</li>
+            <li><strong>体全体（頭〜足先）が見切れない</strong>ように映してください</li>
+        </ul>
+    </div>
+    """,
+    unsafe_allow_html=True,
+    )
 
     if uploaded_file is None:
         st.info("左から動画をアップロードしてください。")
