@@ -534,11 +534,49 @@ def main():
     td_idx, onset_idx = detect_touchdown_and_ascent_onset(out)
     lead_jp = "左脚" if out["lead_side"] == "left" else "右脚"
 
+    # 最大ニーイン (cm)
+    lead_inward = np.asarray(out["lead_inward_smooth_cm"], dtype=float)
+    max_knee_in_cm = float(np.nanmax(lead_inward)) if np.any(~np.isnan(lead_inward)) else np.nan
+
+    # 立ち上がり上昇速度のピーク位置と到達時間
+    vel = np.asarray(out["hip_upward_vel_cm_s"], dtype=float)
+    if b_idx < len(vel) and np.any(~np.isnan(vel[b_idx:])):
+        peak_idx = b_idx + int(np.nanargmax(vel[b_idx:]))
+        peak_vel_cm_s = float(vel[peak_idx])
+        time_to_peak_from_onset = float(t[peak_idx] - t[onset_idx])
+    else:
+        peak_vel_cm_s = np.nan
+        time_to_peak_from_onset = np.nan
+
+    # 最大沈み込み (cm)
+    nose_disp = np.asarray(out["nose_disp_cm"], dtype=float)
+    max_sink_cm = float(np.nanmax(nose_disp)) if np.any(~np.isnan(nose_disp)) else np.nan
+
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("前脚", lead_jp)
-    c2.metric("接地", f"{t[td_idx]:.2f} s ({td_idx} f)")
-    c3.metric("最下点", f"{t[b_idx]:.2f} s ({b_idx} f)")
-    c4.metric("上昇開始", f"{t[onset_idx]:.2f} s ({onset_idx} f)")
+
+    if np.isnan(max_knee_in_cm):
+        c2.metric("最大ニーイン", "-")
+    else:
+        sign_str = "+" if max_knee_in_cm > 0 else ""
+        c2.metric(
+            "最大ニーイン",
+            f"{sign_str}{max_knee_in_cm:.1f} cm",
+            delta="ニーインあり" if max_knee_in_cm > 0 else "ニーインなし",
+            delta_color="inverse" if max_knee_in_cm > 0 else "off",
+        )
+
+    c3.metric(
+        "立ち上がりピーク到達時間",
+        f"{time_to_peak_from_onset:.2f} s" if not np.isnan(time_to_peak_from_onset) else "-",
+        delta="上昇開始〜最大速度" if not np.isnan(time_to_peak_from_onset) else None,
+        delta_color="off",
+    )
+
+    c4.metric(
+        "最大沈み込み",
+        f"{max_sink_cm:.1f} cm" if not np.isnan(max_sink_cm) else "-",
+    )
 
     col_graph, col_img = st.columns([1.35, 1.0])
 
