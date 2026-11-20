@@ -459,7 +459,7 @@ def main():
     st.title("フォワードランジ解析")
     st.caption("ニーイン・上昇速度・鉛直移動の確認")
 
-   with st.sidebar:
+    with st.sidebar:
     st.header("設定")
     uploaded_file = st.file_uploader(
         "動画をアップロード",
