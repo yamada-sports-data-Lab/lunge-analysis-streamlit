@@ -2,5 +2,6 @@ fonts-ipafont
 libgl1
 libgl1-mesa-dri
 libegl1
+libgles2
 libglib2.0-0
 libgomp1
