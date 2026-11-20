@@ -1,1 +1,5 @@
 fonts-ipafont
+libgl1
+libgl1-mesa-dri
+libegl1
+libglib2.0-0
