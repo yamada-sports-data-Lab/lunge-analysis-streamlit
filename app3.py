@@ -478,7 +478,7 @@ def main():
 
     st.markdown(
     """
-    <div style="padding: 16px 20px; border-left: 6px solid #d97706; background-color: #fffbeb; border-radius: 6px; margin-bottom: 16px;">
+    <div style="padding: 16px 20px; border-left: 6px solid #d97706; background-color: #fffbeb; border-radius: 6px; margin-bottom: 14px;">
         <div style="font-size: 1.25rem; font-weight: 700; color: #92400e; margin-bottom: 8px;">
             動画撮影のお願い（正確な解析のために）
         </div>
@@ -488,6 +488,15 @@ def main():
             <li><strong>カメラの水平</strong>をしっかりとってください</li>
             <li><strong>体全体（頭〜足先）が見切れない</strong>ように映してください</li>
         </ul>
+    </div>
+
+    <div style="padding: 16px 20px; border-left: 6px solid #2563eb; background-color: #eff6ff; border-radius: 6px; margin-bottom: 18px;">
+        <div style="font-size: 1.25rem; font-weight: 700; color: #1e40af; margin-bottom: 8px;">
+            フォワードランジの実施方法
+        </div>
+        <p style="font-size: 1.05rem; line-height: 1.8; color: #1f2937; margin: 0;">
+            足を肩幅に自然と開き、一歩前に踏み込みます。最下点では前と後ろの膝がどちらも90度近くなるようにします。膝を地面につかずに、しっかりと地面を蹴って立ち上がり、元の姿勢に戻ります。
+        </p>
     </div>
     """,
     unsafe_allow_html=True,
